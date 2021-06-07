@@ -27,9 +27,11 @@ class GameBoard:
 
         if self._board[row][column] == 0:
             self._board[row][column] = 'O'
+            return False
 
         elif self._board[row][column] == 1:
             self._board[row][column] = 'X'
+            return True
 
         else:
             raise GameError("You have already selected this move!")

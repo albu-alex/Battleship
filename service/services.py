@@ -173,7 +173,41 @@ class Services:
                 ai_moves.append(move)
             length -= 1
 
-    def ai_move(self):
-        first_coordinate = random.randint(1, 8)
-        second_coordinate = random.randint(1, 8)
-        self._entity1.show_move(first_coordinate, second_coordinate)
+    def ai_move(self, ai_moves):
+        if len(ai_moves) <= 0:
+            first_coordinate = random.randint(1, 8)
+            second_coordinate = random.randint(1, 8)
+            result = self._entity1.show_move(first_coordinate, second_coordinate)
+            return first_coordinate, second_coordinate, result
+        values = ai_moves[-1]
+        former_first_coordinate = values[0]
+        former_second_coordinate = values[1]
+        former_result = values[2]
+        if not former_result:
+            first_coordinate = random.randint(1, 8)
+            second_coordinate = random.randint(1, 8)
+            try:
+                result = self._entity1.show_move(first_coordinate, second_coordinate)
+                return first_coordinate, second_coordinate, result
+            except GameError:
+                self.ai_move(ai_moves)
+        if former_second_coordinate + 1 <= 8:
+            second_coordinate = former_second_coordinate + 1
+            result = self._entity1.show_move(former_first_coordinate, second_coordinate)
+            if result:
+                return former_first_coordinate, second_coordinate, result
+        if former_second_coordinate - 1 >= 1:
+            second_coordinate = former_second_coordinate - 1
+            result = self._entity1.show_move(former_first_coordinate, second_coordinate)
+            if result:
+                return former_first_coordinate, second_coordinate, result
+        if former_first_coordinate + 1 <= 8:
+            first_coordinate = former_first_coordinate + 1
+            result = self._entity1.show_move(first_coordinate, former_second_coordinate)
+            if result:
+                return first_coordinate, former_second_coordinate, result
+        if former_first_coordinate - 1 >= 1:
+            first_coordinate = former_first_coordinate - 1
+            result = self._entity1.show_move(first_coordinate, former_second_coordinate)
+            if result:
+                return first_coordinate, former_second_coordinate, result

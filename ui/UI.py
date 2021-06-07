@@ -65,7 +65,8 @@ class UI:
                 self.player_move_ui(counter)
 
     def ai_move_ui(self, ai_moves):
-        self._services.ai_move()
+        values = self._services.ai_move(ai_moves)
+        ai_moves.append(values)
 
     def multiplayer_start_ui(self):
         player1, player2 = self.players_name_multiplayer()
