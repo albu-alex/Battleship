@@ -153,14 +153,10 @@ class UI:
         print(board)
 
     def print_board1_for_player2_ui(self):
-        board = self._services.print_board1_for_player2()
-        for row in board:
-            print(*row)
+        print(self._services.print_board1_for_player2())
 
     def print_board2_for_player1_ui(self):
-        board = self._services.print_board2_for_player1()
-        for row in board:
-            print(*row)
+        print(self._services.print_board2_for_player1())
 
     @staticmethod
     def players_name_multiplayer():

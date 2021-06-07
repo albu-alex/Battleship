@@ -3,6 +3,7 @@ Here I will implement the functionalities needed for the game
 """
 import random
 from domain.entity import GameError
+from texttable import Texttable
 
 
 class Services:
@@ -139,7 +140,10 @@ class Services:
                     new_row.append(self._entity1._board[row][column])
             board.append(new_row)
 
-        return board
+        table = Texttable()
+        for row in range(len(board)):
+            table.add_row(board[row])
+        return table.draw()
 
     def print_board2_for_player1(self):
         board = []
@@ -152,7 +156,11 @@ class Services:
                     new_row.append(self._entity2._board[row][column])
             board.append(new_row)
 
-        return board
+        table = Texttable()
+        for row in range(len(board)):
+            table.add_row(board[row])
+        return table.draw()
+
 
     "----------------------------------------------AI DECISION MAKING--------------------------------------------------"
 
