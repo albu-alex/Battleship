@@ -22,7 +22,7 @@ class UI:
                 self._services.player1_input(first_coordinate, second_coordinate, orientation, length)
             except GameError as error_message:
                 print(str(error_message) + " Try again!")
-                self.player1_input_ui(length)
+                length += 1
             self.player1_input_ui(length-1)
         else:
             return
@@ -39,7 +39,7 @@ class UI:
                 self._services.player2_input(first_coordinate, second_coordinate, orientation, length)
             except GameError as error_message:
                 print(str(error_message) + " Try again!")
-                self.player2_input_ui(length)
+                length += 1
             self.player2_input_ui(length-1)
         else:
             return

@@ -52,7 +52,7 @@ class Services:
         letters = "abcdefghABCDEFGH"
         numbers = "12345678"
         directions = "updownleftright"
-        if orientation in directions:
+        if orientation in directions and len(orientation) > 0:
             if first_coordinate in letters and second_coordinate in numbers:
                 if first_coordinate in "abcdefgh":
                     first_coordinate = first_coordinate.upper()
@@ -74,7 +74,7 @@ class Services:
         letters = "abcdefghABCDEFGH"
         numbers = "12345678"
         directions = "updownleftright"
-        if orientation in directions:
+        if orientation in directions and len(orientation) > 0:
             if first_coordinate in letters and second_coordinate in numbers:
                 if first_coordinate in "abcdefgh":
                     first_coordinate = first_coordinate.upper()
