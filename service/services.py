@@ -13,24 +13,17 @@ class Services:
         self._entity2 = domain2
 
     def player1_move(self, first_coordinate, second_coordinate):
-        letters = "abcdefghABCDEFGH"
-        numbers = "12345678"
-        if first_coordinate in letters and second_coordinate in numbers:
-            if first_coordinate in "abcdefgh":
-                first_coordinate = first_coordinate.upper()
-            column = int(ord(first_coordinate) - 64)
-            row = int(second_coordinate)
-        elif first_coordinate in numbers and second_coordinate in letters:
-            if second_coordinate in "abcdefgh":
-                second_coordinate = second_coordinate.upper()
-            column = int(ord(second_coordinate) - 64)
-            row = int(first_coordinate)
-        else:
-            raise GameError("Invalid input! First and second coordinate cannot be both letters or numbers!")
+        row, column = self._determine_move(first_coordinate, second_coordinate)
 
         self._entity2.show_move(row, column)
 
     def player2_move(self, first_coordinate, second_coordinate):
+        row, column = self._determine_move(first_coordinate, second_coordinate)
+
+        self._entity1.show_move(row, column)
+
+    @staticmethod
+    def _determine_move(first_coordinate, second_coordinate):
         letters = "abcdefghABCDEFGH"
         numbers = "12345678"
         if first_coordinate in letters and second_coordinate in numbers:
@@ -45,50 +38,24 @@ class Services:
             row = int(first_coordinate)
         else:
             raise GameError("Invalid input! First and second coordinate cannot be both letters or numbers!")
+        return row, column
 
-        self._entity1.show_move(row, column)
-
-    def player1_input(self, first_coordinate, second_coordinate, orientation, length):
-        letters = "abcdefghABCDEFGH"
-        numbers = "12345678"
+    def _determine_input(self, first_coordinate, second_coordinate, orientation, length):
         directions = "updownleftright"
         if orientation in directions and len(orientation) > 0:
-            if first_coordinate in letters and second_coordinate in numbers:
-                if first_coordinate in "abcdefgh":
-                    first_coordinate = first_coordinate.upper()
-                column = int(ord(first_coordinate) - 64)
-                row = int(second_coordinate)
-            elif first_coordinate in numbers and second_coordinate in letters:
-                if second_coordinate in "abcdefgh":
-                    second_coordinate = second_coordinate.upper()
-                column = int(ord(second_coordinate) - 64)
-                row = int(first_coordinate)
-            else:
-                raise GameError("Invalid input! First and second coordinate cannot be both letters or numbers!")
+            row, column = self._determine_move(first_coordinate, second_coordinate)
         else:
             raise GameError("Direction input not valid!")
+
+        return row, column
+
+    def player1_input(self, first_coordinate, second_coordinate, orientation, length):
+        row, column = self._determine_input(first_coordinate, second_coordinate, orientation, length)
 
         self._entity1.place_battleship(row, column, orientation, length)
 
     def player2_input(self, first_coordinate, second_coordinate, orientation, length):
-        letters = "abcdefghABCDEFGH"
-        numbers = "12345678"
-        directions = "updownleftright"
-        if orientation in directions and len(orientation) > 0:
-            if first_coordinate in letters and second_coordinate in numbers:
-                if first_coordinate in "abcdefgh":
-                    first_coordinate = first_coordinate.upper()
-                column = int(ord(first_coordinate) - 64)
-                row = int(second_coordinate)
-            elif first_coordinate in numbers and second_coordinate in letters:
-                if second_coordinate in "abcdefgh":
-                    second_coordinate = second_coordinate.upper()
-                column = int(ord(second_coordinate) - 64)
-                row = int(first_coordinate)
-            else:
-                raise GameError("Invalid input! First and second coordinate cannot be both letters or numbers!")
-        else:
-            raise GameError("Direction input not valid!")
+        row, column = self._determine_input(first_coordinate, second_coordinate, orientation, length)
 
         self._entity2.place_battleship(row, column, orientation, length)
 
@@ -129,16 +96,21 @@ class Services:
     def print_board2(self):
         return self._entity2.__str__()
 
-    def print_board1_for_player2(self):
+    @staticmethod
+    def _turn_board_into_matrix(entityBoard):
         board = []
-        for row in range(1, self._entity1._rows + 1):
+        for row in range(1, entityBoard + 1):
             new_row = []
-            for column in range(1, self._entity1._columns + 1):
-                if self._entity1._board[row][column] == 1:
+            for column in range(1, entityBoard + 1):
+                if entityBoard[row][column] == 1:
                     new_row.append(0)
                 else:
-                    new_row.append(self._entity1._board[row][column])
+                    new_row.append(entityBoard[row][column])
             board.append(new_row)
+        return board
+
+    def print_board1_for_player2(self):
+        board = self._turn_board_into_matrix(self._entity1._board)
 
         table = Texttable()
         for row in range(len(board)):
@@ -146,15 +118,7 @@ class Services:
         return table.draw()
 
     def print_board2_for_player1(self):
-        board = []
-        for row in range(1, self._entity2._rows + 1):
-            new_row = []
-            for column in range(1, self._entity2._columns + 1):
-                if self._entity2._board[row][column] == 1:
-                    new_row.append(0)
-                else:
-                    new_row.append(self._entity2._board[row][column])
-            board.append(new_row)
+        board = self._turn_board_into_matrix(self._entity2._board)
 
         table = Texttable()
         for row in range(len(board)):
