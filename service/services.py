@@ -13,11 +13,23 @@ class Services:
         self._entity2 = domain2
 
     def player1_move(self, first_coordinate, second_coordinate):
+        """
+        Takes the coordinates of the move of a player in string and gives them to _determine_move
+        :param first_coordinate: The first coordinate of a move(either a digit or a letter)
+        :param second_coordinate: The second coordinate of a move(either a letter or a digit)
+        :return: -
+        """
         row, column = self._determine_move(first_coordinate, second_coordinate)
 
         self._entity2.show_move(row, column)
 
     def player2_move(self, first_coordinate, second_coordinate):
+        """
+        Takes the coordinates of the move of a player in string and gives them to _determine_move
+        :param first_coordinate: The first coordinate of a move(either a digit or a letter)
+        :param second_coordinate: The second coordinate of a move(either a letter or a digit)
+        :return: -
+        """
         row, column = self._determine_move(first_coordinate, second_coordinate)
 
         self._entity1.show_move(row, column)

@@ -10,6 +10,10 @@ class UI:
         self._services = services
 
     def player1_input_ui(self, length):
+        """
+        :param length: The length of the battleship that will be placed(1<= length <=5)
+        :return: -
+        """
         print("Please enter put your ships on the board!")
         if length > 1:
             self.print_board1_ui()
@@ -27,6 +31,10 @@ class UI:
             return
 
     def player2_input_ui(self, length):
+        """
+        :param length: The length of the battleship that will be placed(1<= length <=5)
+        :return: -
+        """
         print("Please enter put your ships on the board!")
         if length > 1:
             self.print_board2_ui()
@@ -44,10 +52,20 @@ class UI:
             return
 
     def ai_input_ui(self, length):
+        """
+        :param length: The length of the battleship that will be placed(1<= length <=5)
+        :return: -
+        """
         print("Now it's my turn!")
         self._services.ai_input(length)
 
     def player_move_ui(self, counter):
+        """
+        This function determines which turn will make the next move according to the counter % 2 value
+        :param counter: An integer for which the parity will decide which player's turn it is
+        :return: -
+        :exception: GameError for when the move is invalid(both coordinates are either letters or digits
+        """
         first_coordinate = input("Enter your first coordinate(1-8 or A-H): ")
         second_coordinate = input("Enter your second coordinate(A-H or 1-8): ")
         if counter % 2 == 1:
@@ -64,10 +82,19 @@ class UI:
                 self.player_move_ui(counter)
 
     def ai_move_ui(self, ai_moves):
+        """
+        :param ai_moves: An array which stores the coordinates of all previous moves that the AI did
+        :return: -
+        """
         values = self._services.ai_move(ai_moves)
         ai_moves.append(values)
 
     def multiplayer_start_ui(self):
+        """
+        Function contains the loop that will go on until a player is decided
+        5 is the initial length of the first boat(goes down to 2)
+        :return: -
+        """
         player1, player2 = self.players_name_multiplayer()
         self.player1_input_ui(5)
         self.print_board1_ui()
@@ -91,6 +118,12 @@ class UI:
         self.print_board2_ui()
 
     def singleplayer_start_ui(self):
+        """
+        Function contains the loop that will go on until a player is decided
+        5 is the initial length of the first boat(goes down to 2)
+        ai_moves is an integer which contains the coordinates of the previous moves that the AI did
+        :return: -
+        """
         player1, player2 = self.players_name_singleplayer()
         self.player1_input_ui(5)
         self.print_board1_ui()
@@ -115,6 +148,12 @@ class UI:
         self.print_board2_ui()
 
     def game_choice_ui(self):
+        """
+        Function displays to user the following options(Singleplayer or Multiplayer) and allows the user to choose
+        one of them
+        :return: -
+        :exception: GameError if the user did not specify the proper option
+        """
         print("1. Multiplayer")
         print("2. Singleplayer")
         choice = input("Choose one of either multi or single player: ")
@@ -126,6 +165,11 @@ class UI:
             raise GameError("Please choose one of the above options!")
 
     def start(self):
+        """
+        The main function in which the game starts. User has the option to exit the game or continue playing once a
+        round is over
+        :return: -
+        """
         print("Welcome to Battleship!")
         self.game_choice_ui()
         game_continues = input("Do you want to play anymore?(YES/NO): ")
@@ -137,6 +181,12 @@ class UI:
             self.start()
 
     def winner_is_ui(self, counter, player1, player2):
+        """
+        :param counter: An integer for which the parity will decide which player's turn it is
+        :param player1: The name of the first player
+        :param player2: The name of the second player
+        :return: -
+        """
         winner = self._services.turn(counter, player1, player2)
         if winner == "Commander von Picklestrauss":
             print("I have defeated you, useless human!")
@@ -144,21 +194,44 @@ class UI:
             print(winner, "you have won this game!\nCongratulations!")
 
     def print_board1_ui(self):
+        """
+        Displays the board of the first player of type Texttable to the user
+        :return: -
+        """
         board = self._services.print_board1()
         print(board)
 
     def print_board2_ui(self):
+        """
+        Displays the board of the second player of type Texttable to the user
+        :return:
+        """
         board = self._services.print_board2()
         print(board)
 
     def print_board1_for_player2_ui(self):
+        """
+        Displays the board of the first player to the second player so that the second player does not know the
+        positions of the other boats
+        :return: -
+        """
         print(self._services.print_board1_for_player2())
 
     def print_board2_for_player1_ui(self):
+        """
+        Displays the board of the second player to the first player so that the first player does not know the
+        positions of the other boats
+        :return: -
+        """
         print(self._services.print_board2_for_player1())
 
     @staticmethod
     def players_name_multiplayer():
+        """
+        Function reads from console the name of the players
+        Default values are Player 1 and Player 2
+        :return: The names of the two players
+        """
         player1 = input("Player 1, enter your name: ")
         player2 = input("Player 2, enter your name: ")
         if player1 is None or player1 == "" or player1 == " ":
@@ -168,6 +241,12 @@ class UI:
         return player1, player2
 
     def player_turn_ui(self, counter, player1, player2):
+        """
+        :param counter: An integer for which the parity will decide which player's turn it is
+        :param player1: The name of the first player
+        :param player2: The name of the second player
+        :return: -
+        """
         player_in_turn = self._services.turn(counter, player1, player2)
         if player_in_turn != "Commander von Picklestrauss":
             print(player_in_turn, "you may make your move!")
@@ -177,6 +256,12 @@ class UI:
 
     @staticmethod
     def players_name_singleplayer():
+        """
+        Function reads from console the name of the players
+        Default values are Player 1 and Commander von Picklestrauss
+        useless_variable is there just for syntax's sake, because user cannot pick a name for the AI
+        :return: The names of the two players
+        """
         player1 = input("Player 1, enter your name: ")
         if player1 is None or player1 == "" or player1 == " ":
             player1 = "Player 1"
