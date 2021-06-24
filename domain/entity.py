@@ -5,6 +5,9 @@ from texttable import Texttable
 
 
 class GameError(Exception):
+    """
+    Custom exception class which inherits from standard Exception class
+    """
     def __init__(self, message):
         self._message = message
 
@@ -22,6 +25,12 @@ class GameBoard:
         self._board = [[0 for column in range(self._columns + 2)] for row in range(self._rows + 2)]
 
     def show_move(self, row, column):
+        """
+        :param row: The row on the board on which the move was made
+        :param column: The column on the board on which the move was made
+        :return: True if there was a hit, False otherwise
+        :exception: GameError when that move was already made
+        """
         if row < 0 or row > self._rows or column < 0 or column > self._columns:
             return
 
@@ -37,6 +46,14 @@ class GameBoard:
             raise GameError("You have already selected this move!")
 
     def place_battleship(self, first_coordinate, second_coordinate, orientation, length):
+        """
+        :param first_coordinate: The first coordinate of a move(either a digit or a letter)
+        :param second_coordinate: The second coordinate of a move(either a letter or a digit)
+        :param orientation: The orientation in which the boat will be placed(one of up, down, left or right)
+        :param length: The length of the boat that will be placed(from 2 to 5)
+        :return: -
+        :exception: GameError when move is out of bounds
+        """
         if orientation == "up":
             if first_coordinate < length or first_coordinate < 0 or first_coordinate > self._rows:
                 raise GameError("Impossible move!")
