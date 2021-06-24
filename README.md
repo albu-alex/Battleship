@@ -1,2 +1,2 @@
-# Battleship_with_pygame
+# Battleship
 Here is my attempt in creating a game of battleship
