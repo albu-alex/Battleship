@@ -1,7 +1,6 @@
 """
 UI module
 """
-import random
 import time
 from domain.entity import GameError
 
