@@ -165,9 +165,9 @@ class Services:
         :return: the modified board
         """
         board = []
-        for row in range(1, entityBoard + 1):
+        for row in range(1, len(entityBoard) - 1):
             new_row = []
-            for column in range(1, entityBoard + 1):
+            for column in range(1, len(entityBoard) - 1):
                 if entityBoard[row][column] == 1:
                     new_row.append(0)
                 else:
