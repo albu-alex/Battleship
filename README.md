@@ -5,4 +5,4 @@
 
 ## Game Images:
 * This is the console output that you will get when you boot the game up:
-[!Image of the game settings](https://github.com/911-Albu-Alex/Battleship/blob/main/.idea/images/game_settings.png)
+![Image of the game settings](https://github.com/911-Albu-Alex/Battleship/blob/main/.idea/images/game_settings.png)
